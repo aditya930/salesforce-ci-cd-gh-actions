@@ -28,5 +28,3 @@ jobs:
       - name: Install Salesforce CLI
         run: |
           npm install @salesforce/cli --location=global
-          nodeInstallPath=$(npm config get prefix)
-          echo "$nodeInstallPath"
