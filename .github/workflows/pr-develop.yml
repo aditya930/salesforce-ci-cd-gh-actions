@@ -20,6 +20,11 @@ jobs:
         with:
           fetch-depth: 0
 
+        #Installing npm so that sfdx can be installed  
+      - name: Install npm
+        run: npm install
+
+        
       - name: Install Salesforce CLI
         run: |
           npm install @salesforce/cli --location=global
