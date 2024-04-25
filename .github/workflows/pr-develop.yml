@@ -27,4 +27,4 @@ jobs:
 
       - name: Install Salesforce CLI
         run: |
-          npm install @salesforce/cli --location=global
+          npm install @salesforce/cli --global
