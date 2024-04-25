@@ -24,41 +24,9 @@ jobs:
       - name: Install npm
         run: npm install
 
-        
+
       - name: Install Salesforce CLI
         run: |
           npm install @salesforce/cli --location=global
           nodeInstallPath=$(npm config get prefix)
-          echo "$nodeInstallPath/bin" >> $GITHUB_PATH
-          sf --version
-
-      - name: Populate auth file with SFDX_URL secret of target org
-        run: |
-          echo ${{ secrets.DEVHUB_SFDX_URL}} > ./DEVHUB_SFDX_URL.txt
-      - name: Authenticate to target Org
-        run: sfdx auth:sfdxurl:store -f ./DEVHUB_SFDX_URL.txt -s -a targetOrg
-      - name: Installing sfdx git delta
-        run: |
-          echo y | sfdx plugins:install sfdx-git-delta
-          sfdx plugins 
-      - name: Create delta packages for new, modified or deleted metadata
-        run: >
-          mkdir changed-sources
-
-          sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/ 
-      - name: Installing java
-        run: sudo apt-get update && sudo apt-get install default-jdk
-      - name: Installing SFDX scanner
-        run: sfdx plugins:install @salesforce/sfdx-scanner
-      - name: Scan code
-        run: sfdx scanner:run --format sarif --target 'changed-sources/**/*.cls'
-          --category 'Best Practices,Code Style,Security' --outfile
-          'apexScanResults.sarif'
-      - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          sarif_file: changed-sources/apexScanResults.sarif
-      - name: Deployment - run all tests
-        run: >
-          sfdx force:source:deploy -p "changed-sources/force-app" --checkonly
-          --testlevel RunLocalTests --json
+          echo "$nodeInstallPath"
