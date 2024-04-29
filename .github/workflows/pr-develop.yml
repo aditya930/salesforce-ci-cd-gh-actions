@@ -27,3 +27,6 @@ jobs:
       - name: Installing SFDX CLI
         run: |
           npm install @salesforce/cli --global
+          nodeInstallPath=$(npm config get prefix)
+          echo "$nodeInstallPath/bin" >> $GITHUB_PATH
+          sf --version
