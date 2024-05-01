@@ -26,3 +26,8 @@ jobs:
           nodeInstallPath=$(npm config get prefix)
           echo "$nodeInstallPath/bin" >> $GITHUB_PATH
           sf --version
+      
+      - name: 'Populate auth file with SFDX URL of the DevHub Org'
+        shell: bash
+        run: |
+          echo ${{ secrets.DEVHUB_SFDX_URL }} > ./DEVHUB_SFDX_URL.txt
