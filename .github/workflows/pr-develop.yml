@@ -27,12 +27,6 @@ jobs:
           echo "$nodeInstallPath/bin" >> $GITHUB_PATH
           sf --version
       
-      - name: 'Populate auth file with SFDX URL of the DevHub Org'
-        shell: bash
+      - name: Log in to Salesforce
         run: |
-          echo ${{ secrets.DEVHUB_SFDX_URL }} > ./DEVHUB_SFDX_URL.txt
-      
-      - name: 'Installing sfdx git delta'
-        run: |
-          echo y | sfdx plugins:install sfdx-git-delta
-          sf plugins 
+          sfdx force:auth:web:login --setdefaultdevhubusername --setalias myhuborg --instanceurl https://login.salesforce.com
