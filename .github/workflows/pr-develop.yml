@@ -1,0 +1,32 @@
+name: Validate PR Develop Branch
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    paths:
+      - force-app/**
+    branches:
+      - main
+jobs:
+  validate-pr-develop-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Installing SFDX CLI
+        run: |
+          npm install -g @salesforce/cli
+          nodeInstallPath=$(npm config get prefix)
+          echo "$nodeInstallPath/bin" >> $GITHUB_PATH
+          sf --version
+      
+      - name: Log in to Salesforce
+        run: |
+          sfdx force:auth:web:login --setdefaultdevhubusername --setalias myhuborg --instanceurl https://login.salesforce.com
